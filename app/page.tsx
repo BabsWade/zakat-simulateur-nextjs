@@ -3,14 +3,14 @@
 import Link from "next/link"
 import { useRef, useEffect } from "react"
 import { useState } from "react"
-
+import { formatFCFA } from "@/lib/currency"
 import { 
   FaLock 
 } from "react-icons/fa"
 export default function Home() {
 
-  const nisabArgent = 412
-  const nisabOr = 6200
+  const nisabArgent = 380000   // ≈ 595g argent
+const nisabOr = 4000000      // ≈ 85g or
 const carouselRef = useRef<HTMLDivElement>(null);
 const versets = [
   "« La Zakat n’est destinée qu’aux pauvres et aux nécessiteux… » (Sourate At-Tawba, 9:60)",
@@ -111,7 +111,7 @@ const versetRef = useRef<HTMLDivElement>(null)
               Basé sur l'argent (595g)
             </h3>
             <p className="text-4xl font-extrabold text-emerald-600">
-              {nisabArgent} €
+           {formatFCFA(nisabArgent)}
             </p>
           </div>
 
@@ -123,7 +123,7 @@ const versetRef = useRef<HTMLDivElement>(null)
               Basé sur l'or (85g)
             </h3>
             <p className="text-4xl font-extrabold text-emerald-600">
-              {nisabOr} €
+             {formatFCFA(nisabOr)}
             </p>
           </div>
 

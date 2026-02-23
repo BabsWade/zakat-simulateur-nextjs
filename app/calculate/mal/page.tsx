@@ -4,7 +4,7 @@ import { useState } from "react"
 
 export default function ZakatMal() {
 
-  const nisab = 412000
+  const nisab = 380000
   const taux = 0.025
 
   const [step, setStep] = useState(1)
