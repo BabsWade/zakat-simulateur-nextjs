@@ -187,7 +187,15 @@ const versetRef = useRef<HTMLDivElement>(null)
 
     </main>
   )
-  function PremiumCarousel({ badge, items, color }) {
+
+type PremiumCarouselProps = {
+  badge: string
+  items: string[]
+  color: "emerald" | "green"
+}
+
+function PremiumCarousel({ badge, items, color }: PremiumCarouselProps) {
+
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
@@ -197,61 +205,32 @@ const versetRef = useRef<HTMLDivElement>(null)
     return () => clearInterval(interval)
   }, [items.length])
 
-  const colorClasses =
-    color === "emerald"
-      ? "from-emerald-500 to-green-400 bg-emerald-600"
-      : "from-green-700 to-emerald-400 bg-green-700"
-
   return (
     <div>
-
-      {/* Card */}
       <div className="relative h-[260px] flex items-center justify-center">
-
         <div
           key={index}
-        className={`absolute w-full 
-bg-gradient-to-br ${color === "emerald"
-  ? "from-emerald-600 via-emerald-500 to-green-500"
-  : "from-green-800 via-emerald-600 to-green-500"}
-text-white
-rounded-3xl p-10 
-border border-white/10
-transition-all duration-700 ease-in-out
-animate-fadeSlide`}
+          className={`absolute w-full 
+          bg-gradient-to-br ${color === "emerald"
+            ? "from-emerald-600 via-emerald-500 to-green-500"
+            : "from-green-800 via-emerald-600 to-green-500"}
+          text-white
+          backdrop-blur-xl
+          rounded-3xl p-10 
+          border border-white/10
+          transition-all duration-700 ease-in-out`}
         >
-
-          {/* Badge */}
-          <span className={`inline-block mb-6 text-xs font-semibold tracking-wider uppercase text-white px-4 py-1 rounded-full shadow ${colorClasses.split(" ")[2]}`}>
+          <span className="inline-block mb-6 text-xs font-semibold tracking-wider uppercase bg-white/20 text-white px-4 py-1 rounded-full">
             {badge}
           </span>
 
-          {/* Texte */}
-         <p className="text-white/90 text-lg leading-relaxed">
+          <p className="text-white/90 text-lg leading-relaxed">
             {items[index]}
           </p>
 
-          {/* Ligne premium */}
-          <div className={`mt-8 h-1 w-20 bg-gradient-to-r ${colorClasses.split(" ").slice(0,2).join(" ")} rounded-full mx-auto`}></div>
+          <div className="mt-8 h-1 w-20 bg-white/40 rounded-full mx-auto"></div>
         </div>
-
       </div>
-
-      {/* Dots navigation */}
-      <div className="flex justify-center gap-3 mt-8">
-        {items.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setIndex(i)}
-            className={`h-3 w-3 rounded-full transition-all duration-300 ${
-              i === index
-                ? "bg-emerald-600 scale-125"
-                : "bg-emerald-200"
-            }`}
-          />
-        ))}
-      </div>
-
     </div>
   )
 }
