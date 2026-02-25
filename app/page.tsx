@@ -69,7 +69,7 @@ export default function Home() {
 
 
 
-        <div className="relative flex flex-col items-center text-center px-6 py-28 max-w-5xl mx-auto">
+        <div className="relative flex flex-col items-center text-center px-6 py-10 max-w-5xl mx-auto">
 
           <span
 
@@ -216,7 +216,7 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
     : "bg-emerald-500/10" 
     // ^ Créer une bande sombre profonde au milieu de la page claire pour casser le blanc
 }`}>
-  <div className="max-w-4xl mx-auto">
+  <div className="max-w-6xl mx-auto">
     <div className={`relative p-8 md:p-14 rounded-[3.5rem] transition-all duration-700 ${
       isDark 
         ? "bg-emerald-0/10" 
@@ -250,11 +250,13 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
         
         {/* Footer de la carte */}
         <div className="flex items-center justify-between border-t border-white/10 pt-8">
-          <span className={`font-bold tracking-tight ${
-            isDark ? "text-slate-500" : "text-emerald-400/80"
-          }`}>
-            — {sagesses[activeTab].ref}
-          </span>
+<span
+  className={`font-bold tracking-tight text-xs sm:text-sm md:text-base lg:text-lg ${
+    isDark ? "text-slate-500" : "text-emerald-400/80"
+  }`}
+>
+  — {sagesses[activeTab].ref}
+</span>
           
           {/* Boutons de Navigation */}
           <div className="flex gap-3">
@@ -265,7 +267,7 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
               <button 
                 key={i}
                 onClick={btn.action}
-                className={`p-3 rounded-2xl transition-all active:scale-90 ${
+                className={`p-2 rounded-2xl transition-all active:scale-90 ${
                   isDark 
                     ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-slate-700 shadow-lg" 
                     : "bg-emerald-800 text-white hover:bg-emerald-700 border border-emerald-800 backdrop-blur-md shadow-xl"
@@ -301,8 +303,8 @@ function NisabCard({ icon, title, value, desc, highlight, isDark }: any) {
   return (
     <div className={`p-8 rounded-[2.5rem] border transition-all duration-300 hover:translate-y-[-8px] ${
       highlight 
-        ? (isDark ? "bg-slate-900/60 border-amber-500/30 shadow-2xl" : "bg-white border-amber-200 shadow-xl shadow-amber-100") 
-        : (isDark ? "bg-slate-900/40 border-slate-800" : "bg-white border-slate-100 shadow-xl shadow-slate-100")
+        ? (isDark ? "bg-slate-900/60 border-amber-500/30 shadow-2xl" : "bg-white border-amber-200 shadow-xl shadow-amber-50") 
+        : (isDark ? "bg-slate-900/40 border-slate-800" : "bg-white border-slate-200 shadow-xl shadow-slate-100")
     }`}>
       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${isDark ? "bg-slate-800" : "bg-slate-50"}`}>
         {icon}
