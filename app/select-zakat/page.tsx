@@ -1,4 +1,8 @@
+"use client"
+
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import { useTheme } from "next-themes"
 import { 
   FaMoneyBillWave, 
   FaMoon, 
@@ -48,16 +52,40 @@ const zakatTypes = [
 ]
 
 export default function SelectZakatType() {
-  return (
-    <main className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-50 px-6 py-20 relative overflow-hidden">
+  const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
-      {/* background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.12),_transparent_40%)]"></div>
+  // Évite les erreurs d'hydratation (différence serveur/client)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
+  const isDark = theme === "dark"
+
+  return (
+    <main className={`min-h-screen transition-colors duration-500 px-6 py-20 relative overflow-hidden ${
+      isDark 
+        ? "bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100" 
+        : "bg-gradient-to-br from-emerald-50 via-white to-green-50 text-gray-900"
+    }`}>
+
+      {/* Background glow dynamique */}
+      <div className={`absolute inset-0 transition-opacity duration-700 ${
+        isDark
+          ? "bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.06),_transparent_40%)]"
+          : "bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.12),_transparent_40%)]"
+      }`} />
 
       <div className="relative max-w-6xl mx-auto">
 
         <div className="text-center mb-16">
-          <span className="inline-block mb-4 px-4 py-2 bg-emerald-100 text-emerald-700 text-sm rounded-full font-medium">
+          <span className={`inline-block mb-4 px-4 py-2 text-sm rounded-full font-medium transition-colors ${
+            isDark
+              ? "bg-emerald-900/40 text-emerald-300 border border-emerald-500/20"
+              : "bg-emerald-100 text-emerald-700 border border-emerald-200"
+          }`}>
             Sélection du calcul
           </span>
 
@@ -65,7 +93,9 @@ export default function SelectZakatType() {
             Choisissez le type de Zakat
           </h1>
 
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className={`text-lg max-w-2xl mx-auto transition-colors ${
+            isDark ? "text-gray-300" : "text-gray-600"
+          }`}>
             Sélectionnez la catégorie correspondant à votre situation
             pour lancer un calcul précis et conforme.
           </p>
@@ -76,29 +106,47 @@ export default function SelectZakatType() {
             <Link
               key={index}
               href={type.href}
-              className="group relative bg-white/70 backdrop-blur-lg p-8 rounded-3xl border border-emerald-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+              className={`group relative backdrop-blur-lg p-8 rounded-3xl border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 ${
+                isDark
+                  ? "bg-gray-800/40 border-gray-700 hover:border-emerald-500/30"
+                  : "bg-white/80 border-emerald-100 hover:border-emerald-300"
+              }`}
             >
-              {/* glow effect */}
-              <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-emerald-500/10 to-green-400/10"></div>
+              {/* Effet de lueur au survol */}
+              <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition duration-500 ${
+                isDark
+                  ? "bg-gradient-to-r from-emerald-400/5 to-green-300/5"
+                  : "bg-gradient-to-r from-emerald-500/5 to-green-400/5"
+              }`} />
 
               <div className="relative">
-
-                <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 text-2xl mb-6 group-hover:scale-110 transition">
+                <div className={`w-14 h-14 flex items-center justify-center rounded-2xl text-2xl mb-6 group-hover:scale-110 transition duration-300 ${
+                  isDark
+                    ? "bg-emerald-900/40 text-emerald-300"
+                    : "bg-emerald-100 text-emerald-600"
+                }`}>
                   {type.icon}
                 </div>
 
-                <h2 className="text-xl font-semibold mb-3 group-hover:text-emerald-700 transition">
+                <h2 className={`text-xl font-semibold mb-3 transition-colors ${
+                  isDark 
+                    ? "group-hover:text-emerald-400" 
+                    : "group-hover:text-emerald-700"
+                }`}>
                   {type.title}
                 </h2>
 
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className={`text-sm leading-relaxed transition-colors ${
+                  isDark ? "text-gray-400" : "text-gray-600"
+                }`}>
                   {type.description}
                 </p>
 
-                <div className="mt-6 text-sm text-emerald-600 font-medium opacity-0 group-hover:opacity-100 transition">
+                <div className={`mt-6 text-sm font-medium opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0 ${
+                  isDark ? "text-emerald-400" : "text-emerald-600"
+                }`}>
                   Calculer →
                 </div>
-
               </div>
             </Link>
           ))}
@@ -107,7 +155,11 @@ export default function SelectZakatType() {
         <div className="text-center mt-16">
           <Link
             href="/"
-            className="text-emerald-700 hover:text-emerald-900 font-medium transition"
+            className={`font-medium transition-colors ${
+              isDark
+                ? "text-emerald-400 hover:text-emerald-300"
+                : "text-emerald-700 hover:text-emerald-900"
+            }`}
           >
             ← Retour à l’accueil
           </Link>

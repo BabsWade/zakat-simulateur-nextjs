@@ -1,237 +1,321 @@
 "use client"
 
 import Link from "next/link"
-import { useRef, useEffect } from "react"
-import { useState } from "react"
-import { formatFCFA } from "@/lib/currency"
+import { useEffect, useState } from "react"
+import { useTheme } from "next-themes"
 import { 
-  FaLock 
-} from "react-icons/fa"
+  ShieldCheck, 
+  ArrowRight, 
+  Coins, 
+  Scale, 
+  ChevronLeft, 
+  ChevronRight,
+  Quote
+} from "lucide-react"
+import { FaLock } from "react-icons/fa"
+
+// Simulation de la fonction format (à remplacer par ton import réel)
+const formatFCFA = (val: number) => new Intl.NumberFormat('fr-FR').format(val) + " FCFA"
+
 export default function Home() {
+  const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  const [activeTab, setActiveTab] = useState(0)
 
-  const nisabArgent = 380000   // ≈ 595g argent
-const nisabOr = 4000000      // ≈ 85g or
-const carouselRef = useRef<HTMLDivElement>(null);
-const versets = [
-  "« La Zakat n’est destinée qu’aux pauvres et aux nécessiteux… » (Sourate At-Tawba, 9:60)",
-  "« Et accomplissez la Salât et acquittez la Zakat » (Sourate Al-Baqara, 2:43)",
-  "« Et donnez une partie de ce que Nous vous avons attribué » (Sourate Al-Baqara, 2:267)"
-]
+  useEffect(() => setMounted(true), [])
 
-const hadiths = [
-  "Le Prophète ﷺ a dit : « La Zakat est un droit sur les richesses » (Sahih Al-Bukhari)",
-  "« Celui qui paie la Zakat sera protégé de l’enfer » (Sahih Muslim)",
-  "« Aucun propriétaire de richesse n’acquit la Zakat sauf que sa richesse sera purifiée » (Abu Dawood)"
-]
-const versetRef = useRef<HTMLDivElement>(null)
-  const hadithRef = useRef<HTMLDivElement>(null)
+  const nisabArgent = 380000
+  const nisabOr = 4000000
 
-  // Défilement automatique
-  useEffect(() => {
-    const interval = setInterval(() => {
-      [versetRef.current, hadithRef.current].forEach(ref => {
-        if (ref) {
-          const cardWidth = ref.firstElementChild?.clientWidth || 300
-          ref.scrollBy({ left: cardWidth + 24, behavior: 'smooth' }) // 24 = gap
-          if (ref.scrollLeft + ref.clientWidth >= ref.scrollWidth) {
-            ref.scrollTo({ left: 0, behavior: 'smooth' })
-          }
-        }
-      })
-    }, 4000) // change de card toutes les 4s
-    return () => clearInterval(interval)
-  }, [])
+  const sagesses = [
+    { text: "« La Zakat n’est destinée qu’aux pauvres et aux nécessiteux… »", ref: "Sourate At-Tawba, 9:60", type: "Coran" },
+    { text: "« Et accomplissez la Salât et acquittez la Zakat »", ref: "Sourate Al-Baqara, 2:43", type: "Coran" },
+    { text: "« La Zakat est un droit sur les richesses »", ref: "Sahih Al-Bukhari", type: "Hadith" },
+    { text: "« Celui qui paie la Zakat sera protégé de l’enfer »", ref: "Sahih Muslim", type: "Hadith" },
+  ]
+
+  if (!mounted) return null
+  const isDark = theme === "dark"
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-50 text-gray-900">
+    <main className={`min-h-screen transition-colors duration-500 ${isDark ? "bg-[#050505] text-white" : "bg-slate-50 text-slate-900"}`}>
+      
+      {/* --- HERO SECTION --- */}
+      <section
 
-      {/* HERO */}
-      <section className="relative overflow-hidden">
+        className={`relative overflow-hidden transition-all duration-500 ${
 
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.15),_transparent_40%)]"></div>
+          theme === "dark"
+
+            ? "bg-gradient-to-br from-[#0b0f14] via-[#050505] to-[#0b0f14]"
+
+            : "bg-gradient-to-br from-emerald-50 via-white to-green-50"
+
+        }`}
+
+      >
+
+        {/* Lueur d'ambiance */}
+
+        <div className={`absolute inset-0 ${
+
+          theme === "dark"
+
+            ? "bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.08),_transparent_40%)]"
+
+            : "bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.15),_transparent_40%)]"
+
+        }`} />
+
+
 
         <div className="relative flex flex-col items-center text-center px-6 py-28 max-w-5xl mx-auto">
 
-          <span className="mb-6 px-4 py-2 text-sm bg-emerald-100 text-emerald-700 rounded-full font-medium shadow-sm">
+          <span
+
+            className={`mb-6 px-5 py-2 text-sm rounded-full font-medium shadow-sm backdrop-blur-md border ${
+
+              theme === "dark"
+
+                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+
+                : "bg-emerald-100 text-emerald-700 border-emerald-200"
+
+            }`}
+
+          >
+
             Conforme aux pratiques malikites – Sénégal
+
           </span>
+
+
 
           <h1 className="text-5xl md:text-6xl font-extrabold mb-8 leading-tight tracking-tight">
+
             Calculez votre Zakat <br />
-            <span className="text-emerald-600">avec précision et sérénité</span>
+
+            <span className={theme === "dark" ? "text-emerald-400" : "text-emerald-600"}>
+
+              avec précision et sérénité
+
+            </span>
+
           </h1>
 
-          <p className="text-gray-600 max-w-2xl mb-12 text-xl leading-relaxed">
+
+
+          <p className={`max-w-2xl mb-12 text-xl leading-relaxed ${
+
+            theme === "dark" ? "text-gray-400" : "text-gray-600"
+
+          }`}>
+
             Un simulateur moderne, confidentiel et conforme aux principes islamiques.
+
             Estimez votre zakat selon le nisab actuel en quelques secondes.
+
           </p>
+
+
 
           <div className="flex flex-col md:flex-row gap-6">
+
             <Link
+
               href="/select-zakat"
-              className="bg-emerald-600 hover:bg-emerald-700 transition-all duration-300 text-white px-10 py-5 rounded-2xl text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1"
+
+              className={`group flex items-center gap-2 px-8 py-4 rounded-2xl font-bold text-lg transition-all hover:scale-105 active:scale-95 ${isDark ? "bg-emerald-500 text-white hover:bg-emerald-400 shadow-emerald-500/20 shadow-2xl" : "bg-emerald-600 text-white hover:bg-emerald-700 shadow-xl"}`}
+
             >
+
               Commencer le calcul
+<ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
+
+
 
             <Link
+
               href="/learn"
-              className="backdrop-blur-md bg-white/60 border border-emerald-200 text-emerald-700 px-10 py-5 rounded-2xl text-lg hover:bg-white transition"
+
+              className={`px-10 py-5 rounded-2xl text-lg transition-all border font-medium ${
+
+                theme === "dark"
+
+                  ? "bg-transparent border-gray-800 text-gray-300 hover:bg-gray-900"
+
+                  : "bg-white border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+
+              }`}
+
             >
+
               Comprendre la Zakat
+
             </Link>
+
           </div>
 
-          <p className="text-sm text-gray-500 mt-8 flex items-center justify-center gap-2">
-  <FaLock className="text-gray-400" /> 100% confidentiel — aucune donnée sauvegardée
-</p>
+
+
+          <p className={`text-sm mt-8 flex items-center gap-2 ${
+
+            theme === "dark" ? "text-gray-500" : "text-gray-400"
+
+          }`}>
+
+            <FaLock className={theme === "dark" ? "text-emerald-500/50" : "text-emerald-600/50"} />
+
+            100% confidentiel — aucune donnée sauvegardée
+
+          </p>
+
         </div>
+
       </section>
 
 
 
-      {/* NISAB */}
-      <section className="py-24 px-6">
+      {/* --- NISAB SECTION --- */}
+      <section className="py-20 px-6 max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
+          <div className="max-w-xl">
+            <h2 className="text-3xl md:text-4xl font-black mb-4">Valeurs du Nisab</h2>
+            <p className={isDark ? "text-slate-400" : "text-slate-500"}>
+Valeurs indicatives — synchronisation automatique des prix bientôt disponible            </p>
+          </div>
+          <div className={`px-4 py-2 rounded-xl text-xs font-bold border ${isDark ? "border-slate-800 text-slate-400" : "bg-white text-slate-500"}`}>
+            FÉVRIER 2026
+          </div>
+        </div>
 
-        <div className="max-w-6xl mx-auto text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Nisab actuel
-          </h2>
-          <p className="text-gray-600">
-            Basé sur les valeurs de référence de l’or et de l’argent
+        <div className="grid md:grid-cols-2 gap-8">
+          <NisabCard 
+            icon={<Coins className="text-slate-400" />} 
+            title="Référence Argent" 
+            value={formatFCFA(nisabArgent)} 
+            desc="Seuil recommandé pour plus de solidarité (595g)"
+            isDark={isDark}
+          />
+          <NisabCard 
+            icon={<Scale className="text-amber-500" />} 
+            title="Référence Or" 
+            value={formatFCFA(nisabOr)} 
+            desc="Seuil basé sur le métal précieux (85g)"
+            isDark={isDark}
+            highlight
+          />
+        </div>
+      </section>
+
+{/* --- WISDOM CAROUSEL --- */}
+<section className={`py-2 px-6 overflow-hidden transition-colors duration-500 ${
+  isDark 
+    ? "bg-emerald-500/10" 
+    : "bg-emerald-500/10" 
+    // ^ Créer une bande sombre profonde au milieu de la page claire pour casser le blanc
+}`}>
+  <div className="max-w-4xl mx-auto">
+    <div className={`relative p-8 md:p-14 rounded-[3.5rem] transition-all duration-700 ${
+      isDark 
+        ? "bg-emerald-0/10" 
+        : "bg-emerald-0/0"
+        // ^ En mode clair, la carte devient sombre et profonde (Vert Nuit)
+    }`}>
+      
+      {/* Icône de citation stylisée */}
+      <Quote className={`absolute top-10 right-12 w-24 h-24 opacity-10 transition-colors ${
+        isDark ? "text-emerald-800" : "text-emerald-400"
+      }`} />
+      
+      <div className="relative z-10">
+        {/* Badge de Type */}
+        <span className={`inline-block px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] mb-8 border transition-colors ${
+          isDark 
+            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" 
+            : "bg-emerald-800 text-white border-white/10 backdrop-blur-md"
+        }`}>
+          {sagesses[activeTab].type}
+        </span>
+        
+        {/* Texte de la Sagesse */}
+        <div className="min-h-[10px] flex items-center">
+          <p className={`text-1xl md:text-2xl font-serif italic leading-tight mb-10 transition-all duration-500 ${
+            isDark ? "text-slate-100" : "text-emerald-800"
+          }`}>
+            {sagesses[activeTab].text}
           </p>
         </div>
-
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10">
-
-          <div className="group relative bg-white/70 backdrop-blur-lg p-10 rounded-3xl border border-emerald-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-xs px-4 py-1 rounded-full shadow">
-              Argent
-            </div>
-            <h3 className="font-semibold text-gray-700 mb-4 mt-4">
-              Basé sur l'argent (595g)
-            </h3>
-            <p className="text-4xl font-extrabold text-emerald-600">
-           {formatFCFA(nisabArgent)}
-            </p>
-          </div>
-
-          <div className="group relative bg-white/70 backdrop-blur-lg p-10 rounded-3xl border border-emerald-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-yellow-500 text-white text-xs px-4 py-1 rounded-full shadow">
-              Or
-            </div>
-            <h3 className="font-semibold text-gray-700 mb-4 mt-4">
-              Basé sur l'or (85g)
-            </h3>
-            <p className="text-4xl font-extrabold text-emerald-600">
-             {formatFCFA(nisabOr)}
-            </p>
-          </div>
-
-        </div>
-
-        <p className="text-center text-sm text-gray-500 mt-10">
-          Valeurs indicatives — synchronisation automatique des prix bientôt disponible.
-        </p>
-      </section>
-
-
-{/* =======================
-   CAROUSEL PREMIUM 1 CARD
-======================= */}
-<section className="relative py-32 px-6 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 overflow-hidden">
-
-  {/* Glow décoratif */}
-  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-emerald-400/20 blur-[160px] rounded-full"></div>
-
-  <div className="relative max-w-3xl mx-auto text-center">
-
-    {/* ================= VERSETS ================= */}
-    <PremiumCarousel
-      badge="Coran"
-      color="emerald"
-      items={versets}
-    />
-
-    {/* ================= HADITHS ================= */}
-    <div className="mt-28">
-      <PremiumCarousel
-        badge="Hadith"
-        color="green"
-        items={hadiths}
-      />
-    </div>
-
-  </div>
-</section>
-
-
-      {/* CTA FINAL */}
-      <section className="relative bg-gradient-to-r from-emerald-600 to-green-700 text-white py-24 px-6 text-center overflow-hidden">
-
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.15),_transparent_60%)]"></div>
-
-        <div className="relative max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8">
-            Prêt à calculer votre Zakat ?
-          </h2>
-
-          <Link
-            href="/select-zakat"
-            className="bg-white text-emerald-700 px-10 py-5 rounded-2xl font-semibold text-lg shadow-2xl hover:-translate-y-1 transition-all"
-          >
-            Commencer maintenant
-          </Link>
-        </div>
-
-      </section>
-
-    </main>
-  )
-
-type PremiumCarouselProps = {
-  badge: string
-  items: string[]
-  color: "emerald" | "green"
-}
-
-function PremiumCarousel({ badge, items, color }: PremiumCarouselProps) {
-
-  const [index, setIndex] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % items.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [items.length])
-
-  return (
-    <div>
-      <div className="relative h-[260px] flex items-center justify-center">
-        <div
-          key={index}
-          className={`absolute w-full 
-          bg-gradient-to-br ${color === "emerald"
-            ? "from-emerald-600 via-emerald-500 to-green-500"
-            : "from-green-800 via-emerald-600 to-green-500"}
-          text-white
-          backdrop-blur-xl
-          rounded-3xl p-10 
-          border border-white/10
-          transition-all duration-700 ease-in-out`}
-        >
-          <span className="inline-block mb-6 text-xs font-semibold tracking-wider uppercase bg-white/20 text-white px-4 py-1 rounded-full">
-            {badge}
+        
+        {/* Footer de la carte */}
+        <div className="flex items-center justify-between border-t border-white/10 pt-8">
+          <span className={`font-bold tracking-tight ${
+            isDark ? "text-slate-500" : "text-emerald-400/80"
+          }`}>
+            — {sagesses[activeTab].ref}
           </span>
-
-          <p className="text-white/90 text-lg leading-relaxed">
-            {items[index]}
-          </p>
-
-          <div className="mt-8 h-1 w-20 bg-white/40 rounded-full mx-auto"></div>
+          
+          {/* Boutons de Navigation */}
+          <div className="flex gap-3">
+            {[
+              { icon: <ChevronLeft size={18} />, action: () => setActiveTab(prev => (prev === 0 ? sagesses.length - 1 : prev - 1)) },
+              { icon: <ChevronRight size={18} />, action: () => setActiveTab(prev => (prev === sagesses.length - 1 ? 0 : prev + 1)) }
+            ].map((btn, i) => (
+              <button 
+                key={i}
+                onClick={btn.action}
+                className={`p-3 rounded-2xl transition-all active:scale-90 ${
+                  isDark 
+                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-slate-700 shadow-lg" 
+                    : "bg-emerald-800 text-white hover:bg-emerald-700 border border-emerald-800 backdrop-blur-md shadow-xl"
+                }`}
+              >
+                {btn.icon}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+      {/* --- FINAL CTA --- */}
+      <section className="py-24 px-6 text-center">
+        <div className={`max-w-5xl mx-auto p-12 md:p-20 rounded-[4rem] relative overflow-hidden ${isDark ? "bg-emerald-600" : "bg-emerald-700"}`}>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.2),_transparent)]" />
+          <h2 className="relative z-10 text-4xl md:text-5xl font-black text-white mb-10">
+            Prêt à accomplir <br /> votre devoir ?
+          </h2>
+          <Link href="/select-zakat" className="relative z-10 inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-white text-emerald-700 font-black text-xl shadow-2xl hover:scale-105 transition-transform active:scale-95">
+            Lancer le simulateur
+          </Link>
+        </div>
+      </section>
+    </main>
   )
 }
+
+function NisabCard({ icon, title, value, desc, highlight, isDark }: any) {
+  return (
+    <div className={`p-8 rounded-[2.5rem] border transition-all duration-300 hover:translate-y-[-8px] ${
+      highlight 
+        ? (isDark ? "bg-slate-900/60 border-amber-500/30 shadow-2xl" : "bg-white border-amber-200 shadow-xl shadow-amber-100") 
+        : (isDark ? "bg-slate-900/40 border-slate-800" : "bg-white border-slate-100 shadow-xl shadow-slate-100")
+    }`}>
+      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${isDark ? "bg-slate-800" : "bg-slate-50"}`}>
+        {icon}
+      </div>
+      <h3 className={`text-sm font-bold uppercase tracking-widest mb-2 ${isDark ? "text-slate-500" : "text-slate-400"}`}>
+        {title}
+      </h3>
+      <p className={`text-3xl font-black mb-4 ${isDark ? "text-emerald-400" : "text-emerald-600"}`}>
+        {value}
+      </p>
+      <p className={`text-sm leading-relaxed ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+        {desc}
+      </p>
+    </div>
+  )
 }
