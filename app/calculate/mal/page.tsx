@@ -238,8 +238,12 @@ function SecondaryButton({ children, onClick, isDark }: any) {
     </button>
   )
 }
-
-function Input({ label, onChange, isDark }: any) {
+type InputProps = {
+  label: string
+  onChange: (value: number) => void
+  isDark: boolean
+}
+function Input({ label, onChange, isDark }: InputProps) {
   return (
     <div className="group">
       <label className={`block text-xs font-bold uppercase tracking-wider mb-2 transition-colors ${
