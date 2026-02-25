@@ -13,6 +13,21 @@ import {
   Quote
 } from "lucide-react"
 import { FaLock } from "react-icons/fa"
+import { motion, AnimatePresence } from "framer-motion"
+
+// Variantes pour les animations d'entrée
+const fadeInUp = {
+  hidden: { opacity: 0, y: 100 },
+  visible: { opacity: 1, y: 0, transition: { duration: 1 } }
+}
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2 }
+  }
+}
 
 // Simulation de la fonction format (à remplacer par ton import réel)
 const formatFCFA = (val: number) => new Intl.NumberFormat('fr-FR').format(val) + " FCFA"
@@ -69,9 +84,12 @@ export default function Home() {
 
 
 
-        <div className="relative flex flex-col items-center text-center px-6 py-10 max-w-5xl mx-auto">
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer} className="relative flex flex-col items-center text-center px-6 py-10 max-w-5xl mx-auto">
 
-          <span
+          <motion.span variants={fadeInUp} 
 
             className={`mb-6 px-5 py-2 text-sm rounded-full font-medium shadow-sm backdrop-blur-md border ${
 
@@ -87,11 +105,11 @@ export default function Home() {
 
             Conforme aux pratiques malikites – Sénégal
 
-          </span>
+          </motion.span>
 
 
 
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-8 leading-tight tracking-tight">
+          <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl font-extrabold mb-8 leading-tight tracking-tight">
 
             Calculez votre Zakat <br />
 
@@ -101,11 +119,11 @@ export default function Home() {
 
             </span>
 
-          </h1>
+          </motion.h1>
 
 
 
-          <p className={`max-w-2xl mb-12 text-xl leading-relaxed ${
+          <motion.p variants={fadeInUp} className={`max-w-2xl mb-12 text-xl leading-relaxed ${
 
             theme === "dark" ? "text-gray-400" : "text-gray-600"
 
@@ -115,11 +133,11 @@ export default function Home() {
 
             Estimez votre zakat selon le nisab actuel en quelques secondes.
 
-          </p>
+          </motion.p>
 
 
 
-          <div className="flex flex-col md:flex-row gap-6">
+          <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-6">
 
             <Link
 
@@ -155,11 +173,11 @@ export default function Home() {
 
             </Link>
 
-          </div>
+          </motion.div>
 
 
 
-          <p className={`text-sm mt-8 flex items-center gap-2 ${
+          <motion.p variants={fadeInUp} className={`text-sm mt-8 flex items-center gap-2 ${
 
             theme === "dark" ? "text-gray-500" : "text-gray-400"
 
@@ -169,17 +187,21 @@ export default function Home() {
 
             100% confidentiel — aucune donnée sauvegardée
 
-          </p>
+          </motion.p>
 
-        </div>
+        </motion.div>
 
       </section>
 
 
 
       {/* --- NISAB SECTION --- */}
-      <section className="py-20 px-6 max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={staggerContainer} className="py-20 px-6 max-w-6xl mx-auto">
+        <motion.div variants={fadeInUp} className="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
           <div className="max-w-xl">
             <h2 className="text-3xl md:text-4xl font-black mb-4">Valeurs du Nisab</h2>
             <p className={isDark ? "text-slate-400" : "text-slate-500"}>
@@ -188,10 +210,11 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
           <div className={`px-4 py-2 rounded-xl text-xs font-bold border ${isDark ? "border-slate-800 text-slate-400" : "bg-white text-slate-500"}`}>
             FÉVRIER 2026
           </div>
-        </div>
+        </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
           <NisabCard 
+          variants={fadeInUp}
             icon={<Coins className="text-slate-400" />} 
             title="Référence Argent" 
             value={formatFCFA(nisabArgent)} 
@@ -199,6 +222,7 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
             isDark={isDark}
           />
           <NisabCard 
+          variants={fadeInUp}
             icon={<Scale className="text-amber-500" />} 
             title="Référence Or" 
             value={formatFCFA(nisabOr)} 
@@ -207,7 +231,7 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
             highlight
           />
         </div>
-      </section>
+      </motion.section>
 
 {/* --- WISDOM CAROUSEL --- */}
 <section className={`py-2 px-6 overflow-hidden transition-colors duration-500 ${
@@ -216,7 +240,9 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
     : "bg-emerald-500/10" 
     // ^ Créer une bande sombre profonde au milieu de la page claire pour casser le blanc
 }`}>
-  <div className="max-w-6xl mx-auto">
+  <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }} className="max-w-6xl mx-auto">
     <div className={`relative p-8 md:p-14 rounded-[3.5rem] transition-all duration-700 ${
       isDark 
         ? "bg-emerald-0/10" 
@@ -231,21 +257,31 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
       
       <div className="relative z-10">
         {/* Badge de Type */}
-        <span className={`inline-block px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] mb-8 border transition-colors ${
+        <motion.span 
+              key={`type-${activeTab}`}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }} className={`inline-block px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] mb-8 border transition-colors ${
           isDark 
             ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" 
             : "bg-emerald-800 text-white border-white/10 backdrop-blur-md"
         }`}>
           {sagesses[activeTab].type}
-        </span>
+        </motion.span>
         
         {/* Texte de la Sagesse */}
         <div className="min-h-[10px] flex items-center">
-          <p className={`text-1xl md:text-2xl font-serif italic leading-tight mb-10 transition-all duration-500 ${
+          <AnimatePresence mode="wait">
+          <motion.p 
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.4 }} className={`text-1xl md:text-2xl font-serif italic leading-tight mb-10 transition-all duration-500 ${
             isDark ? "text-slate-100" : "text-emerald-800"
           }`}>
             {sagesses[activeTab].text}
-          </p>
+          </motion.p>
+          </AnimatePresence>
         </div>
         
         {/* Footer de la carte */}
@@ -267,7 +303,7 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
               <button 
                 key={i}
                 onClick={btn.action}
-                className={`p-2 rounded-2xl transition-all active:scale-90 ${
+                className={`p-3 rounded-2xl transition-all active:scale-90 ${
                   isDark 
                     ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-slate-700 shadow-lg" 
                     : "bg-emerald-800 text-white hover:bg-emerald-700 border border-emerald-800 backdrop-blur-md shadow-xl"
@@ -280,11 +316,14 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
         </div>
       </div>
     </div>
-  </div>
+  </motion.div>
 </section>
 
       {/* --- FINAL CTA --- */}
-      <section className="py-24 px-6 text-center">
+      <motion.section 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }} className="py-24 px-6 text-center">
         <div className={`max-w-5xl mx-auto p-12 md:p-20 rounded-[4rem] relative overflow-hidden ${isDark ? "bg-emerald-600" : "bg-emerald-700"}`}>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.2),_transparent)]" />
           <h2 className="relative z-10 text-4xl md:text-5xl font-black text-white mb-10">
@@ -294,7 +333,7 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
             Lancer le simulateur
           </Link>
         </div>
-      </section>
+      </motion.section>
     </main>
   )
 }
