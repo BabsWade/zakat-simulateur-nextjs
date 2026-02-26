@@ -113,7 +113,7 @@ export default function Navbar() {
                         : isDark ? "text-gray-500" : "text-gray-400"
                     }`}
                   >
-                    <div className={`p-1 rounded-xl ${active && (isDark ? "bg-emerald-500/10" : "bg-emerald-50")}`}>
+                    <div className={`p-2 rounded-xl ${active && (isDark ? "bg-emerald-500/10" : "bg-emerald-50")}`}>
                       {link.icon}
                     </div>
                     <span className="text-[8px] font-bold uppercase tracking-tighter">{link.label}</span>
