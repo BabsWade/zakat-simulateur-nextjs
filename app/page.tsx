@@ -3,16 +3,17 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
-import { 
-  ShieldCheck, 
-  ArrowRight, 
-  Coins, 
-  Scale, 
-  ChevronLeft, 
+import {
+  ShieldCheck,
+  ArrowRight,
+  Coins,
+  Scale,
+  ChevronLeft,
   ChevronRight,
-  Quote
+  Quote,
+  Book
 } from "lucide-react"
-import { FaLock } from "react-icons/fa"
+import { FaBook, FaLock } from "react-icons/fa"
 import { motion, AnimatePresence } from "framer-motion"
 
 // Variantes pour les animations d'entrée
@@ -54,52 +55,46 @@ export default function Home() {
 
   return (
     <main className={`min-h-screen transition-colors duration-500 ${isDark ? "bg-[#050505] text-white" : "bg-slate-50 text-slate-900"}`}>
-      
+
       {/* --- HERO SECTION --- */}
       <section
 
-        className={`relative overflow-hidden transition-all duration-500 ${
-
-          theme === "dark"
+        className={`relative overflow-hidden transition-all duration-500 ${theme === "dark"
 
             ? "bg-gradient-to-br from-[#0b0f14] via-[#050505] to-[#0b0f14]"
 
             : "bg-gradient-to-br from-emerald-50 via-white to-green-50"
 
-        }`}
+          }`}
 
       >
 
         {/* Lueur d'ambiance */}
 
-        <div className={`absolute inset-0 ${
-
-          theme === "dark"
+        <div className={`absolute inset-0 ${theme === "dark"
 
             ? "bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.08),_transparent_40%)]"
 
             : "bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.15),_transparent_40%)]"
 
-        }`} />
+          }`} />
 
 
 
-        <motion.div 
+        <motion.div
           initial="hidden"
           animate="visible"
           variants={staggerContainer} className="relative flex flex-col items-center text-center px-6 py-10 max-w-5xl mx-auto">
 
-          <motion.span variants={fadeInUp} 
+          <motion.span variants={fadeInUp}
 
-            className={`mb-6 px-5 py-2 text-sm rounded-full font-medium shadow-sm backdrop-blur-md border ${
-
-              theme === "dark"
+            className={`mb-6 px-5 py-2 text-sm rounded-full font-medium shadow-sm backdrop-blur-md border ${theme === "dark"
 
                 ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
 
                 : "bg-emerald-100 text-emerald-700 border-emerald-200"
 
-            }`}
+              }`}
 
           >
 
@@ -123,11 +118,9 @@ export default function Home() {
 
 
 
-          <motion.p variants={fadeInUp} className={`max-w-2xl mb-12 text-xl leading-relaxed ${
+          <motion.p variants={fadeInUp} className={`max-w-2xl mb-12 text-xl leading-relaxed ${theme === "dark" ? "text-gray-400" : "text-gray-600"
 
-            theme === "dark" ? "text-gray-400" : "text-gray-600"
-
-          }`}>
+            }`}>
 
             Un simulateur moderne, confidentiel et conforme aux principes islamiques.
 
@@ -148,7 +141,7 @@ export default function Home() {
             >
 
               Commencer le calcul
-<ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
 
 
@@ -157,19 +150,18 @@ export default function Home() {
 
               href="/learn"
 
-              className={`px-10 py-5 rounded-2xl text-lg transition-all border font-medium ${
-
-                theme === "dark"
+              className={`group flex items-center gap-2 px-10 py-5 rounded-2xl text-lg transition-all border font-medium ${theme === "dark"
 
                   ? "bg-transparent border-gray-800 text-gray-300 hover:bg-gray-900"
 
                   : "bg-white border-emerald-200 text-emerald-700 hover:bg-emerald-50"
 
-              }`}
+                }`}
 
             >
 
               Comprendre la Zakat
+              <Book size={20} className="group-hover:translate-x-1 transition-transform" />
 
             </Link>
 
@@ -177,11 +169,9 @@ export default function Home() {
 
 
 
-          <motion.p variants={fadeInUp} className={`text-sm mt-8 flex items-center gap-2 ${
+          <motion.p variants={fadeInUp} className={`text-sm mt-8 flex items-center gap-2 ${theme === "dark" ? "text-gray-500" : "text-gray-400"
 
-            theme === "dark" ? "text-gray-500" : "text-gray-400"
-
-          }`}>
+            }`}>
 
             <FaLock className={theme === "dark" ? "text-emerald-500/50" : "text-emerald-600/50"} />
 
@@ -196,7 +186,7 @@ export default function Home() {
 
 
       {/* --- NISAB SECTION --- */}
-      <motion.section 
+      <motion.section
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -205,7 +195,7 @@ export default function Home() {
           <div className="max-w-xl">
             <h2 className="text-3xl md:text-4xl font-black mb-4">Valeurs du Nisab</h2>
             <p className={isDark ? "text-slate-400" : "text-slate-500"}>
-Valeurs indicatives — synchronisation automatique des prix bientôt disponible            </p>
+              Valeurs indicatives — synchronisation automatique des prix bientôt disponible            </p>
           </div>
           <div className={`px-4 py-2 rounded-xl text-xs font-bold border ${isDark ? "border-slate-800 text-slate-400" : "bg-white text-slate-500"}`}>
             FÉVRIER 2026
@@ -213,19 +203,19 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <NisabCard 
-          variants={fadeInUp}
-            icon={<Coins className="text-slate-400" />} 
-            title="Référence Argent" 
-            value={formatFCFA(nisabArgent)} 
+          <NisabCard
+            variants={fadeInUp}
+            icon={<Coins className="text-slate-400" />}
+            title="Référence Argent"
+            value={formatFCFA(nisabArgent)}
             desc="Seuil recommandé pour plus de solidarité (595g)"
             isDark={isDark}
           />
-          <NisabCard 
-          variants={fadeInUp}
-            icon={<Scale className="text-amber-500" />} 
-            title="Référence Or" 
-            value={formatFCFA(nisabOr)} 
+          <NisabCard
+            variants={fadeInUp}
+            icon={<Scale className="text-amber-500" />}
+            title="Référence Or"
+            value={formatFCFA(nisabOr)}
             desc="Seuil basé sur le métal précieux (85g)"
             isDark={isDark}
             highlight
@@ -233,94 +223,87 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
         </div>
       </motion.section>
 
-{/* --- WISDOM CAROUSEL --- */}
-<section className={`py-2 px-6 overflow-hidden transition-colors duration-500 ${
-  isDark 
-    ? "bg-emerald-500/10" 
-    : "bg-emerald-500/10" 
-    // ^ Créer une bande sombre profonde au milieu de la page claire pour casser le blanc
-}`}>
-  <motion.div 
+      {/* --- WISDOM CAROUSEL --- */}
+      <section className={`py-2 px-6 overflow-hidden transition-colors duration-500 ${isDark
+          ? "bg-emerald-500/10"
+          : "bg-emerald-500/10"
+        // ^ Créer une bande sombre profonde au milieu de la page claire pour casser le blanc
+        }`}>
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }} className="max-w-6xl mx-auto">
-    <div className={`relative p-8 md:p-14 rounded-[3.5rem] transition-all duration-700 ${
-      isDark 
-        ? "bg-emerald-0/10" 
-        : "bg-emerald-0/0"
-        // ^ En mode clair, la carte devient sombre et profonde (Vert Nuit)
-    }`}>
-      
-      {/* Icône de citation stylisée */}
-      <Quote className={`absolute top-10 right-12 w-24 h-24 opacity-10 transition-colors ${
-        isDark ? "text-emerald-800" : "text-emerald-400"
-      }`} />
-      
-      <div className="relative z-10">
-        {/* Badge de Type */}
-        <motion.span 
-              key={`type-${activeTab}`}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }} className={`inline-block px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] mb-8 border transition-colors ${
-          isDark 
-            ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" 
-            : "bg-emerald-800 text-white border-white/10 backdrop-blur-md"
-        }`}>
-          {sagesses[activeTab].type}
-        </motion.span>
-        
-        {/* Texte de la Sagesse */}
-        <div className="min-h-[10px] flex items-center">
-          <AnimatePresence mode="wait">
-          <motion.p 
-                  key={activeTab}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4 }} className={`text-1xl md:text-2xl font-serif italic leading-tight mb-10 transition-all duration-500 ${
-            isDark ? "text-slate-100" : "text-emerald-800"
-          }`}>
-            {sagesses[activeTab].text}
-          </motion.p>
-          </AnimatePresence>
-        </div>
-        
-        {/* Footer de la carte */}
-        <div className="flex items-center justify-between border-t border-white/10 pt-8">
-<span
-  className={`font-bold tracking-tight text-xs sm:text-sm md:text-base lg:text-lg ${
-    isDark ? "text-slate-500" : "text-emerald-400/80"
-  }`}
->
-  — {sagesses[activeTab].ref}
-</span>
-          
-          {/* Boutons de Navigation */}
-          <div className="flex gap-3">
-            {[
-              { icon: <ChevronLeft size={18} />, action: () => setActiveTab(prev => (prev === 0 ? sagesses.length - 1 : prev - 1)) },
-              { icon: <ChevronRight size={18} />, action: () => setActiveTab(prev => (prev === sagesses.length - 1 ? 0 : prev + 1)) }
-            ].map((btn, i) => (
-              <button 
-                key={i}
-                onClick={btn.action}
-                className={`p-3 rounded-2xl transition-all active:scale-90 ${
-                  isDark 
-                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-slate-700 shadow-lg" 
-                    : "bg-emerald-800 text-white hover:bg-emerald-700 border border-emerald-800 backdrop-blur-md shadow-xl"
-                }`}
-              >
-                {btn.icon}
-              </button>
-            ))}
+          <div className={`relative p-8 md:p-14 rounded-[3.5rem] transition-all duration-700 ${isDark
+              ? "bg-emerald-0/10"
+              : "bg-emerald-0/0"
+            // ^ En mode clair, la carte devient sombre et profonde (Vert Nuit)
+            }`}>
+
+            {/* Icône de citation stylisée */}
+            <Quote className={`absolute top-10 right-12 w-24 h-24 opacity-10 transition-colors ${isDark ? "text-emerald-800" : "text-emerald-400"
+              }`} />
+
+            <div className="relative z-10">
+              {/* Badge de Type */}
+              <motion.span
+                key={`type-${activeTab}`}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }} className={`inline-block px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] mb-8 border transition-colors ${isDark
+                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                    : "bg-emerald-800 text-white border-white/10 backdrop-blur-md"
+                  }`}>
+                {sagesses[activeTab].type}
+              </motion.span>
+
+              {/* Texte de la Sagesse */}
+              <div className="min-h-[10px] flex items-center">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={activeTab}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.4 }} className={`text-1xl md:text-2xl font-serif italic leading-tight mb-10 transition-all duration-500 ${isDark ? "text-slate-100" : "text-emerald-800"
+                      }`}>
+                    {sagesses[activeTab].text}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+
+              {/* Footer de la carte */}
+              <div className="flex items-center justify-between border-t border-white/10 pt-8">
+                <span
+                  className={`font-bold tracking-tight text-xs sm:text-sm md:text-base lg:text-lg ${isDark ? "text-slate-500" : "text-emerald-400/80"
+                    }`}
+                >
+                  — {sagesses[activeTab].ref}
+                </span>
+
+                {/* Boutons de Navigation */}
+                <div className="flex gap-3">
+                  {[
+                    { icon: <ChevronLeft size={18} />, action: () => setActiveTab(prev => (prev === 0 ? sagesses.length - 1 : prev - 1)) },
+                    { icon: <ChevronRight size={18} />, action: () => setActiveTab(prev => (prev === sagesses.length - 1 ? 0 : prev + 1)) }
+                  ].map((btn, i) => (
+                    <button
+                      key={i}
+                      onClick={btn.action}
+                      className={`p-3 rounded-2xl transition-all active:scale-90 ${isDark
+                          ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-slate-700 shadow-lg"
+                          : "bg-emerald-800 text-white hover:bg-emerald-700 border border-emerald-800 backdrop-blur-md shadow-xl"
+                        }`}
+                    >
+                      {btn.icon}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </motion.div>
-</section>
+        </motion.div>
+      </section>
 
       {/* --- FINAL CTA --- */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }} className="py-24 px-6 text-center">
@@ -340,11 +323,10 @@ Valeurs indicatives — synchronisation automatique des prix bientôt disponible
 
 function NisabCard({ icon, title, value, desc, highlight, isDark }: any) {
   return (
-    <div className={`p-8 rounded-[2.5rem] border transition-all duration-300 hover:translate-y-[-8px] ${
-      highlight 
-        ? (isDark ? "bg-slate-900/60 border-amber-500/30 shadow-2xl" : "bg-white border-amber-200 shadow-xl shadow-amber-50") 
+    <div className={`p-8 rounded-[2.5rem] border transition-all duration-300 hover:translate-y-[-8px] ${highlight
+        ? (isDark ? "bg-slate-900/60 border-amber-500/30 shadow-2xl" : "bg-white border-amber-200 shadow-xl shadow-amber-50")
         : (isDark ? "bg-slate-900/40 border-slate-800" : "bg-white border-slate-200 shadow-xl shadow-slate-100")
-    }`}>
+      }`}>
       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${isDark ? "bg-slate-800" : "bg-slate-50"}`}>
         {icon}
       </div>

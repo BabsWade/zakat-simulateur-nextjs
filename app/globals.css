@@ -23,3 +23,17 @@ body {
 .btn-secondary {
   @apply bg-gray-200 dark:bg-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition;
 }
+/* Chrome, Safari et Edge */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: none;
+}
+
+/* IE et anciens Edge */
+body {
+  -ms-overflow-style: none;
+}
