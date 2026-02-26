@@ -50,7 +50,7 @@ export default function Navbar() {
     <>
       {/* --- HEADER DESKTOP + THEME SWITCHER (Toujours en haut) --- */}
       <header 
-        className={`fixed top-0 w-full z-50 transition-colors duration-500 border-b backdrop-blur-xl ${
+        className={` top-0 w-full z-50 transition-colors duration-500 border-b backdrop-blur-xl ${
           isDark ? "bg-gray-900/80 border-gray-800" : "bg-white/80 border-emerald-100"
         }`}
       >
@@ -107,16 +107,16 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`flex flex-col items-center gap-1 transition-all duration-300 ${
+                    className={`flex flex-col items-center gap-0 transition-all duration-300 ${
                       active 
                         ? "text-emerald-500 scale-110" 
                         : isDark ? "text-gray-500" : "text-gray-400"
                     }`}
                   >
-                    <div className={`p-2 rounded-xl ${active && (isDark ? "bg-emerald-500/10" : "bg-emerald-50")}`}>
+                    <div className={`p-1 rounded-xl ${active && (isDark ? "bg-emerald-500/10" : "bg-emerald-50")}`}>
                       {link.icon}
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-tighter">{link.label}</span>
+                    <span className="text-[8px] font-bold uppercase tracking-tighter">{link.label}</span>
                   </Link>
                 )
               })}
